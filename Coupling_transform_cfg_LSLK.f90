@@ -1,6 +1,6 @@
 !
 !***********************************************************************
-! 
+!
       module Coupling_transform_cfg_LSLK
 !                                                                      *
 !     Written by G. Gaigalas,                                          *
@@ -8,13 +8,13 @@
 !                                                                      *
 !***********************************************************************
 !-----------------------------------------------
-!   M o d u l e s 
+!   M o d u l e s
 !-----------------------------------------------
       use Coupling_constants
       use Coupling_structures
       use Coupling_data
 !-----------------------------------------------
-!   R o u t i n e s 
+!   R o u t i n e s
 !-----------------------------------------------
       public  :: main_cfg_lslk
       public  :: count_nr_of_csfs_LK
@@ -30,7 +30,7 @@
 !-----------------------------------------------
       type::Ji_lists
          integer::nr_of_csf !serial number of csf_LS in csfs_LS
-         type(list),dimension(:),pointer::Ji !i=1..nr_of_subc		
+         type(list),dimension(:),pointer::Ji !i=1..nr_of_subc
       end type Ji_lists
 !
       type:: cfg_Ji_lists
@@ -84,7 +84,7 @@ contains
 !                                                                      *
 !***********************************************************************
       implicit none
-      integer, intent(out):: nr_of_csfs 
+      integer, intent(out):: nr_of_csfs
       integer::error
       integer::itype
       if(expansion_cfg_LS%csfs(1)%nosubc.lt.2) then
@@ -222,7 +222,7 @@ contains
 !
 !***********************************************************************
 !                                                                      *
-      subroutine form_list_nomach_csfs 
+      subroutine form_list_nomach_csfs
 !                                                                      *
 !     This subroutine form the list of serial numbers                  *
 !     in "expansion_cfg_LS" of "nonequivalent" LS coupling csfs        *
@@ -243,7 +243,7 @@ contains
       allocate(temp_list(expansion_cfg_LS%size))
 !
       do icsf_LS=1,expansion_cfg_LS%size,1
-         new_csf = .true. 
+         new_csf = .true.
          do inew = 1, inomach_counter, 1
             if(equivalent_LSLK(expansion_cfg_LS%csfs(icsf_LS),         &
               expansion_cfg_LS%csfs(temp_list(inew)))) new_csf = .false.
@@ -253,16 +253,16 @@ contains
             if(inomach_counter.gt.expansion_cfg_LS%size) then
                write(*,*) 'stop at subroutine define_nomach: ',        &
                   'inomach_counter.gt.expansion_cfg_LS%size'
-               stop 
+               stop
             end if
             temp_list(inomach_counter)= icsf_LS
          end if
       end do
-!			
+!
       nomach_csfs_LS%list_size = inomach_counter
 !
       allocate(nomach_csfs_LS%items(nomach_csfs_LS%list_size))
-!		
+!
       do icsf_LS=1, nomach_csfs_LS%list_size, 1
          nomach_csfs_LS%items(icsf_LS) = temp_list(icsf_LS)
       end do
@@ -272,7 +272,7 @@ contains
 !write(iwrite_log, *)'Nonmaching csfs_LS:'
 !write(iwrite_log, *)'       Nr.   icsf_nr '
 !do icsf_LS=1, nomach_csfs_LS%list_size, 1
-!	 write(iwrite_log, '(4x,i3,2x,i3)') icsf_LS, nomach_csfs_LS%items(icsf_LS) 
+!	 write(iwrite_log, '(4x,i3,2x,i3)') icsf_LS, nomach_csfs_LS%items(icsf_LS)
 !end do !icsf_LS
 !write(iwrite_log, *)'  '
 !
@@ -287,7 +287,7 @@ contains
 !     correponding to the one in LS coupling "expansion_cfg_LS"        *
 !                                                                      *
 !     Written by G. Gaigalas,                                          *
-!     NIST                                     last update: Oct 2015   *
+!     NIST                                last update: February 2020   *
 !                                                                      *
 !***********************************************************************
       implicit none
@@ -312,7 +312,7 @@ contains
          write(*,*) 'STOP at subroutine define_number_of_csfs_LK ',    &
             'module transform_lsjj: cfg_Ji_structure%nr_of_subc.gt.',  &
             'isubc_aviable'
-         stop 
+         stop
       end if
 !
 !write(*,*) '      subroutine form_csfs_LK'
@@ -323,7 +323,7 @@ contains
       call define_number_of_csfs_LK(inr_of_csfs_LK)
 !
       expansion_cfg_LK%size=inr_of_csfs_LK
-      if(itype.ne.1) then 
+      if(itype.ne.1) then
          allocate(expansion_cfg_LK%csfs(expansion_cfg_LK%size))
          allocate(expansion_cfg_LK%coeffs(expansion_cfg_LK%size))
          icsf_LK=0
@@ -348,7 +348,7 @@ contains
                   if(J.eq.iJ_total) then
                      icsf_LK = icsf_LK + 1
                      if(icsf_LK.gt.expansion_cfg_LK%size) then
-                        stop 
+                        stop
                         write(8,*) 'stop at subroutine form_csfs_LK: ',&
                            'icsf_nr.gt.expansion_cfg_LK%size'
                      end if
@@ -361,10 +361,13 @@ contains
                         expansion_cfg_LK%csfs(icsf_LK)%nosubc))
                      allocate(expansion_cfg_LK%csfs(icsf_LK)%iM2(      &
                         expansion_cfg_LK%csfs(icsf_LK)%nosubc))
-                     allocate(expansion_cfg_LK%csfs(icsf_LK)%iJ(      &
+                     allocate(expansion_cfg_LK%csfs(icsf_LK)%iJ(       &
                         expansion_cfg_LK%csfs(icsf_LK)%nosubc))
+                     expansion_cfg_LK%csfs(icsf_LK)%iJ(                &
+                     expansion_cfg_LK%csfs(icsf_LK)%nosubc) = 0
                      do isubc=1,expansion_cfg_LK%csfs(icsf_LK)%        &
                                                             nosubc-1,1
+                        expansion_cfg_LK%csfs(icsf_LK)%iJ(isubc) = 0
                         expansion_cfg_LK%csfs(icsf_LK)%subc_cfg(isubc) &
                            = expansion_cfg_LS%csfs(                    &
                            inr_of_csf_in_expansion_LS)%subc_cfg(isubc)
@@ -390,10 +393,10 @@ contains
                         inr_of_csf_in_expansion_LS)%iM1(isubc)
                      expansion_cfg_LK%csfs(icsf_LK)%iM2(isubc)= K
 !
-                  end if 
+                  end if
                end do
             end do
-         end do 
+         end do
 !
       end if
 !
@@ -404,7 +407,7 @@ contains
 !
 !***********************************************************************
 !                                                                      *
-         subroutine  define_number_of_csfs_LK(irez) 
+         subroutine  define_number_of_csfs_LK(irez)
 !                                                                      *
 !     This subroutine defines the number of csfs in LK coupling        *
 !                                                                      *
@@ -423,7 +426,7 @@ contains
            write(*,*) 'STOP at subroutine define_number_of_csfs_LK ',  &
               'module transform_lsjj: cfg_Ji_structure%nr_of_subc.gt.',&
               'isubc_aviable'
-           stop 
+           stop
          end if
          irez=0
          do icsf=1, nomach_csfs_ls%list_size,1
@@ -509,7 +512,7 @@ contains
                ' coeff_LK=',coeff_LK
             write(iwrite_log,*)'possible error at subroutine ',        &
                'dotransform_LSLK: coeff_LK=',coeff_LK
-         end if 
+         end if
          expansion_cfg_LK%coeffs(icsf_LK)= coeff_LK
          sum_of_state = sum_of_state + coeff_LK*coeff_LK
       end do
@@ -518,7 +521,7 @@ contains
             'sum_of_state=',sum_of_state
          write(iwrite_log,*)'possible error at subroutine ',           &
             'dotransform_LSLK: sum_of_state=',sum_of_state
-      end if 
+      end if
       end subroutine dotransform_LSLK
 !
 !***********************************************************************
@@ -610,7 +613,7 @@ contains
          end if
       end if
 !
-!     LK - Coupling 
+!     LK - Coupling
 !
       if(itype.gt.1) then
          write(iwrite_cfg_expansions_LK,*) &

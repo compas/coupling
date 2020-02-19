@@ -65,8 +65,8 @@ CGGV      BLOCK DATA TERMLS
 *     | I/2  J/2  K/2 |                                            *
 *     | L/2  M/2  N/2 |          (29.1A) [J.B.77]                  *
 *                                                                  *
-*     Written by G. Gaigalas,                                      * 
-*     Vanderbilt University,  Nashville             October 1996   * 
+*     Written by G. Gaigalas,                                      *
+*     Vanderbilt University,  Nashville             October 1996   *
 *
 *
       SUBROUTINE SIXJ(I,J,K,L,M,N,ITIK,SI)
@@ -75,7 +75,7 @@ CGGV      BLOCK DATA TERMLS
       DIMENSION RACA(0:4,0:4,0:4,0:4,0:4,0:4)
       DATA RACA/15625*1.D-20/
       COMMON/CONSTS/ZERO,TENTH,HALF,ONE,TWO,THREE,FOUR,SEVEN,ELEVEN,EPS
-      DATA UNDEF/1.D-20/ 
+      DATA UNDEF/1.D-20/
       SI=ZERO
       IF(ITIK.NE.0) THEN
 C
@@ -102,8 +102,8 @@ C
 *      B L O C K   D A T A   R I B L S
 *     -------------------------------------------------------------
 *
-*     Written by G. Gaigalas,                                      * 
-*     Vanderbilt University,  Nashville             October 1996   * 
+*     Written by G. Gaigalas,                                      *
+*     Vanderbilt University,  Nashville             October 1996   *
 *
 CGGV      BLOCK DATA RIBLS
       SUBROUTINE RIBLS
@@ -144,7 +144,7 @@ CGGV      BLOCK DATA RIBLS
 *     |  L1/2  L2/2  L3/2 |                                        *
 *     |  K1/2  K2/2  K3/2 |                                        *
 *                                                                  *
-*     Written by G. Gaigalas,                                      * 
+*     Written by G. Gaigalas,                                      *
 *     Vilnius, LITHUANIA                              January 1997 *
 *
       SUBROUTINE NINELS(J1,J2,J3,L1,L2,L3,K1,K2,K3,I,IN,A)
@@ -217,7 +217,7 @@ C
           CALL SIXJ(L1,L2,L3,J2,IX,K2,0,S2)
           CALL SIXJ(K1,K2,K3,IX,J1,L1,0,S3)
           X=S1*S2*S3*DBLE(IX+1)
-          IF(MOD(IX,2).NE.0) X=-X 
+          IF(MOD(IX,2).NE.0) X=-X
           AA=X+AA
     1   CONTINUE
       RETURN
@@ -227,61 +227,61 @@ C
 *      G R A C A H 1
 *     -----------------------------------------------------------------
 *
-      SUBROUTINE GRACAH1(I,J,K,L,M,N,RAC) 
-      IMPLICIT REAL*8(A-H,O-Z) 
-* 
-*      SUBROUTINE TO CALCULATE RACAH COEFFICIENTS. 
-*      THE ARGUMENTS I,J,K,L,M,N SHOULD BE TWICE THEIR ACTUAL VALUE. 
-*      WRITTEN BY N. S. SCOTT 
+      SUBROUTINE GRACAH1(I,J,K,L,M,N,RAC)
+      IMPLICIT REAL*8(A-H,O-Z)
+*
+*      SUBROUTINE TO CALCULATE RACAH COEFFICIENTS.
+*      THE ARGUMENTS I,J,K,L,M,N SHOULD BE TWICE THEIR ACTUAL VALUE.
+*      WRITTEN BY N. S. SCOTT
 *      Modified by C. Froese Fischer, March 11, 1988 to use
 *         table look-up
 *      and
 *                  G. Gaigalas, September 14, 1997
 *
-      COMMON/FACT/GAM(100) 
-      DATA ZERO,ONE,TWO/0.D0,1.D0,2.D0/ 
-* 
-      J1 = I+J+M 
-      J2 = K+L+M 
-      J3 = I+K+N 
-      J4 = J+L+N 
-      IF (MOD(J1,2) .EQ. 0  .AND.  MOD(J2,2) .EQ. 0   .AND. 
-     :    MOD(J3,2) .EQ. 0  .AND.  MOD(J4,2) .EQ. 0 )  THEN 
-          J1 = J1/2 
-          J2 = J2/2 
-          J3 = J3/2 
-          J4 = J4/2 
-          IF (MAX(I,J,M) .LE. J1 .AND.  MAX(K,L,M) .LE. J2  .AND. 
-     :        MAX(I,K,N) .LE. J3 .AND.  MAX(J,L,N) .LE. J4  )  THEN 
-              J5 = (I+J+K+L)/2 
-              J6 = (I+L+M+N)/2 
-              J7 = (J+K+M+N)/2 
-              NUMIN = MAX(J1, J2, J3, J4) + 1 
-              NUMAX = MIN(J5, J6, J7)     + 1 
-              RAC = ONE 
-              ICOUNT = 0 
-              DO 10 KK = NUMIN+1,NUMAX 
-                KI = NUMAX - ICOUNT 
-                RAC = ONE - (RAC*(KI*(J5-KI+2)*(J6-KI+2)*(J7-KI+2)))/ 
-     :                   ((KI-1-J1)*(KI-1-J2)*(KI-1-J3)*(KI-1-J4)) 
-                ICOUNT = ICOUNT+1 
-  10          CONTINUE 
+      COMMON/FACT/GAM(100)
+      DATA ZERO,ONE,TWO/0.D0,1.D0,2.D0/
+*
+      J1 = I+J+M
+      J2 = K+L+M
+      J3 = I+K+N
+      J4 = J+L+N
+      IF (MOD(J1,2) .EQ. 0  .AND.  MOD(J2,2) .EQ. 0   .AND.
+     :    MOD(J3,2) .EQ. 0  .AND.  MOD(J4,2) .EQ. 0 )  THEN
+          J1 = J1/2
+          J2 = J2/2
+          J3 = J3/2
+          J4 = J4/2
+          IF (MAX(I,J,M) .LE. J1 .AND.  MAX(K,L,M) .LE. J2  .AND.
+     :        MAX(I,K,N) .LE. J3 .AND.  MAX(J,L,N) .LE. J4  )  THEN
+              J5 = (I+J+K+L)/2
+              J6 = (I+L+M+N)/2
+              J7 = (J+K+M+N)/2
+              NUMIN = MAX(J1, J2, J3, J4) + 1
+              NUMAX = MIN(J5, J6, J7)     + 1
+              RAC = ONE
+              ICOUNT = 0
+              DO 10 KK = NUMIN+1,NUMAX
+                KI = NUMAX - ICOUNT
+                RAC = ONE - (RAC*(KI*(J5-KI+2)*(J6-KI+2)*(J7-KI+2)))/
+     :                   ((KI-1-J1)*(KI-1-J2)*(KI-1-J3)*(KI-1-J4))
+                ICOUNT = ICOUNT+1
+  10          CONTINUE
               RAC = RAC*EXP(
-     :              (GAM(NUMIN+1) - GAM(NUMIN-J1) - GAM(NUMIN-J2) - 
-     :               GAM(NUMIN-J3) - GAM(NUMIN-J4) - GAM(J5+2-NUMIN)- 
-     :               GAM(J6+2-NUMIN)-GAM(J7+2-NUMIN)) + 
-     :              (GAM(J1+1-I)+GAM(J1+1-J)+GAM(J1+1-M)-GAM(J1+2) + 
-     :               GAM(J2+1-K)+GAM(J2+1-L)+GAM(J2+1-M)-GAM(J2+2) + 
-     :               GAM(J3+1-I)+GAM(J3+1-K)+GAM(J3+1-N)-GAM(J3+2) + 
+     :              (GAM(NUMIN+1) - GAM(NUMIN-J1) - GAM(NUMIN-J2) -
+     :               GAM(NUMIN-J3) - GAM(NUMIN-J4) - GAM(J5+2-NUMIN)-
+     :               GAM(J6+2-NUMIN)-GAM(J7+2-NUMIN)) +
+     :              (GAM(J1+1-I)+GAM(J1+1-J)+GAM(J1+1-M)-GAM(J1+2) +
+     :               GAM(J2+1-K)+GAM(J2+1-L)+GAM(J2+1-M)-GAM(J2+2) +
+     :               GAM(J3+1-I)+GAM(J3+1-K)+GAM(J3+1-N)-GAM(J3+2) +
      :               GAM(J4+1-J)+GAM(J4+1-L)+GAM(J4+1-N)-GAM(J4+2))/TWO)
               IF (MOD(J5+NUMIN,2) .EQ. 0) RAC = -RAC
           ELSE
               RAC = ZERO
           END IF
-      ELSE 
-         RAC = ZERO 
-      END IF 
-      RETURN 
+      ELSE
+         RAC = ZERO
+      END IF
+      RETURN
       END
 *
 *     -------------------------------------------------------------
@@ -331,11 +331,11 @@ C
       END
 *
 *     ---------------------------------------------------------------
-*      I T R E X G 
+*      I T R E X G
 *     ---------------------------------------------------------------
 *
-*     Written by G. Gaigalas,                                      * 
-*     Vanderbilt University,  Nashville             October 1996   * 
+*     Written by G. Gaigalas,                                      *
+*     Vanderbilt University,  Nashville             October 1996   *
 *
       FUNCTION ITREXG(I1,I2,I3,I4,K)
       J=MAX0(IABS(I1-I2),IABS(I3-I4))
@@ -391,11 +391,11 @@ C
    20 CONTINUE
       RETURN
       END
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
       SUBROUTINE JJPER(IL1,IL2,IS1,IS2,IL,IS,IJ,IJ1,IJ2,REZ)
       IMPLICIT DOUBLEPRECISION (A-H,O-Z)
       COMMON/CONSTS/ZERO,TENTH,HALF,ONE,TWO,THREE,FOUR,SEVEN,ELEVEN,EPS
@@ -408,11 +408,11 @@ C
       ENDIF
       RETURN
       END
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
       SUBROUTINE JKPER(IL1,IL2,IS1,IS2,IL,IS,IJ,IJ1,IK,REZ)
       IMPLICIT DOUBLEPRECISION (A-H,O-Z)
       COMMON/CONSTS/ZERO,TENTH,HALF,ONE,TWO,THREE,FOUR,SEVEN,ELEVEN,EPS
@@ -430,11 +430,11 @@ C
       ENDIF
       RETURN
       END
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
       SUBROUTINE LKPER(IL1,IL2,IS1,IS2,IL,IS,IJ,ILS,IK,REZ)
       IMPLICIT DOUBLEPRECISION (A-H,O-Z)
       COMMON/CONSTS/ZERO,TENTH,HALF,ONE,TWO,THREE,FOUR,SEVEN,ELEVEN,EPS
@@ -450,11 +450,11 @@ C
       RETURN
       END
 
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
 c	SUBROUTINE JJJKPER(I1,I2,IK,ISI,IJ,IJI,IJIM1,ILI,REZ)
       SUBROUTINE JJJKPER(IK,ISI,IJ,IJI,IJIM1,ILI,REZ)
       IMPLICIT DOUBLEPRECISION (A-H,O-Z)
@@ -470,11 +470,11 @@ c      IF(I1.NE.I2) RETURN
       ENDIF
       RETURN
       END
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
       SUBROUTINE LS3PER(L_12, L_3, L_123, L_4, L_34, L,
      :                             IS_12,IS_3,IS_123,IS_4,IS_34,IS,REZ)
       IMPLICIT DOUBLEPRECISION (A-H,O-Z)
@@ -494,11 +494,11 @@ C
       ENDIF
       RETURN
       END
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
       SUBROUTINE LSJ3PER(L_12, L_3, L_123, L_4, L_34, L,
      :                  IS_12,IS_3,IS_123,IS_4,IS_34,IS,J_12,J_34,J,REZ)
       IMPLICIT DOUBLEPRECISION (A-H,O-Z)
@@ -524,11 +524,11 @@ C
       ENDIF
       RETURN
       END
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
       SUBROUTINE LK3PER(L_12, L_3, L_123, L_4, L_34, L,
      :                  IS_12,IS_3,IS_123,IS_4,IS_34,IS,K,J,REZ)
       IMPLICIT DOUBLEPRECISION (A-H,O-Z)
@@ -555,11 +555,11 @@ C
       ENDIF
       RETURN
       END
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
       SUBROUTINE JK3PER(L_12, L_3, L_123, L_4, L_34, L,
      :                  IS_12,IS_3,IS_123,IS_4,IS_34,IS,J_12,K,J,REZ)
       IMPLICIT DOUBLEPRECISION (A-H,O-Z)
@@ -591,11 +591,11 @@ C
       ENDIF
       RETURN
       END
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
       SUBROUTINE cLSJ3PER(L_1,L_12, L_2, L_3, L_23, L,
      :                  IS_1,IS_12,IS_2,IS_3,IS_23,IS,J_1,J_12,J,REZ)
       IMPLICIT DOUBLEPRECISION (A-H,O-Z)
@@ -621,11 +621,11 @@ C
       ENDIF
       RETURN
       END
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
       SUBROUTINE LScjjPER(L12,IS12,L3,IS3,L,IS,J_1,J_2,J,REZ)
       IMPLICIT DOUBLEPRECISION (A-H,O-Z)
       COMMON/CONSTS/ZERO,TENTH,HALF,ONE,TWO,THREE,FOUR,SEVEN,ELEVEN,EPS
@@ -639,11 +639,11 @@ C
       ENDIF
       RETURN
       END
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
       SUBROUTINE jj2PER(L1,IS1,L2,IS2,L,IS,J_1,J_2,J,JM2,JP2,J_12,REZ)
       IMPLICIT DOUBLEPRECISION (A-H,O-Z)
       COMMON/CONSTS/ZERO,TENTH,HALF,ONE,TWO,THREE,FOUR,SEVEN,ELEVEN,EPS
@@ -663,11 +663,11 @@ C
       ENDIF
       RETURN
       END
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
 *     -----------------------------------------------------------------
-*                                                                              
+*
       SUBROUTINE jj3PER(L1,IS1,L2,IS2,L_12,IS_12,L3,IS3,L,IS,
      :           J_1,J_2,J_3,J,JM2,JP2,J_12,J_12S,JM3,JP3,J_123S,REZ)
       IMPLICIT DOUBLEPRECISION (A-H,O-Z)
@@ -694,13 +694,13 @@ C
       IF(MOD(JM2+JP2+J_1+J_12+JM3+JP3+J_12+J,4).NE.0)REZ=-REZ
       RETURN
       END
-*                                                                              
-*     -----------------------------------------------------------------        
-*       L V A L                                                                
-*     -----------------------------------------------------------------        
-*                                                                              
+*
+*     -----------------------------------------------------------------
+*       L V A L
+*     -----------------------------------------------------------------
+*
 *     Modified by Gediminas Gaigalas,                September 1997
-*                                                                              
+*
       INTEGER FUNCTION LVAL(SYMBOL)
       CHARACTER*1 SYMBOL
       CHARACTER*26 SET
@@ -714,16 +714,16 @@ C
       ENDIF
       RETURN
       END
-*                                                                              
-*     -----------------------------------------------------------------        
-*       C V A L                                                                
-*     -----------------------------------------------------------------        
-*                                                                              
+*
+*     -----------------------------------------------------------------
+*       C V A L
+*     -----------------------------------------------------------------
+*
 *     Writen by Gediminas Gaigalas,                September 1999
-*                                                                              
+*
 *      SUBROUTINE CVAL(I,IVALUE,SYMBOL)
       CHARACTER*1 FUNCTION CVAL(I,IVALUE)
-      IMPLICIT REAL*8(A-H,O-Z) 
+      IMPLICIT REAL*8(A-H,O-Z)
 *      CHARACTER*1 SYMBOL
       CHARACTER*26 SET
       DATA SET/'spdfghiklmnoqSPDFGHIKLMNOQ'/
@@ -741,50 +741,55 @@ C
       CVAL = SET(II:II)
       RETURN
       END
-*                                        
-*     -----------------------------------------------------------------        
-*       J V A L                                                                
-*     -----------------------------------------------------------------        
-*                                                                              
+*
+*     -----------------------------------------------------------------
+*       J V A L
+*     -----------------------------------------------------------------
+*
 *     Writen by Gediminas Gaigalas,                September 1999
-*                                                                              
+*
 *      SUBROUTINE JVAL(IVALUE,SYMBOL)
       CHARACTER*4 FUNCTION JVAL(IVALUE)
-      IMPLICIT REAL*8(A-H,O-Z) 
+      IMPLICIT REAL*8(A-H,O-Z)
 *      CHARACTER*1 SYMBOL
       CHARACTER*64 SET1, SET2
+      CHARACTER*8  SET3
       DATA SET1/
-     :' 1/2 1   3/2 2   5/2 3   7/2 4   9/2 5  11/2 6  13/2 7  15/2 8  '
+     :'1/2 1   3/2 2   5/2 3   7/2 4   9/2 5   11/26   13/27   15/28   '
      :/
       DATA SET2/
-     :' 9  17/2 10 19/2 11 21/2 12 23/2 13 25/2 14 27/2 15 29/2 16 31/2'
+     :'17/29   19/210  21/211  23/212  25/213  27/214  29/215  31/216  '
      :/
+      DATA SET3/'33/217  '/
 *
       IF( IVALUE .EQ. 0) THEN
-         JVAL = ' 0  '
+         JVAL = '0   '
          I = 1
-      ELSE IF (IVALUE .LT. 16) THEN
-         I = (IVALUE-1)*4+1
-         JVAL = SET1(I:I+4)
-      ELSE IF (IVALUE .LT. 32) THEN
-         I = (IVALUE-16)*4+1
-         JVAL = SET2(I:I+4)
+      ELSE IF (IVALUE .LE. 16) THEN
+         I = (IVALUE)*4
+         JVAL = SET1(I-3:I)
+      ELSE IF (IVALUE .LE. 32) THEN
+         I = (IVALUE-16)*4
+         JVAL = SET2(I-3:I)
+      ELSE IF (IVALUE .LE. 34) THEN
+         I = (IVALUE-32)*4
+         JVAL = SET3(I-3:I)
       ELSE
          print*,"IVALUE =",IVALUE
          STOP ' ERROR in JVAL'
       END IF
       RETURN
       END
-*                                        
-*     -----------------------------------------------------------------        
-*       L S J V A L                                                                
-*     -----------------------------------------------------------------        
-*                                                                              
+*
+*     -----------------------------------------------------------------
+*       L S J V A L
+*     -----------------------------------------------------------------
+*
 *     Writen by Gediminas Gaigalas,                September 1999
-*                                                                              
+*
 *      SUBROUTINE JVAL(IVALUE,SYMBOL)
       CHARACTER*2 FUNCTION LSJVAL(IL,IJ)
-      IMPLICIT REAL*8(A-H,O-Z) 
+      IMPLICIT REAL*8(A-H,O-Z)
 *      CHARACTER*1 SYMBOL
       CHARACTER*52 SET
       DATA SET/
@@ -794,9 +799,9 @@ C
       IF (IL .LE. 13) THEN
          I = IJ-2*IL
          IF(I .EQ. -1) THEN
-           I = 4*IL + 1 
+           I = 4*IL + 1
          ELSE IF (I .EQ. 1) THEN
-           I = 4*IL + 3 
+           I = 4*IL + 3
          ELSE IF (IL .EQ. 0 .AND. IJ .EQ. 0) THEN
            I = 1
          ELSE

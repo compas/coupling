@@ -1,20 +1,20 @@
 !
 !***********************************************************************
-! 
+!
       module Coupling_transform_cfg_LSLS3
 !                                                                      *
 !     Written by G. Gaigalas,                                          *
-!     NIST                                     last update: Oct 2015   *
+!     NIST                                      last update: Oct 2015  *
 !                                                                      *
 !***********************************************************************
 !-----------------------------------------------
-!   M o d u l e s 
+!   M o d u l e s
 !-----------------------------------------------
       use Coupling_constants
       use Coupling_structures
       use Coupling_data
 !-----------------------------------------------
-!   R o u t i n e s 
+!   R o u t i n e s
 !-----------------------------------------------
       public  :: main_cfg_lsls3
       public  :: count_nr_of_csfs_LS3
@@ -30,7 +30,7 @@
 !-----------------------------------------------
       type::Ji_lists
          integer::nr_of_csf !serial number of csf_LS in csfs_LS
-         type(list),dimension(:),pointer::Ji !i=1..nr_of_subc		
+         type(list),dimension(:),pointer::Ji !i=1..nr_of_subc
       end type Ji_lists
 !
       type:: cfg_Ji_lists
@@ -84,7 +84,7 @@ contains
 !                                                                      *
 !***********************************************************************
       implicit none
-      integer, intent(out):: nr_of_csfs 
+      integer, intent(out):: nr_of_csfs
       integer::error
       integer::itype
       if(expansion_cfg_LS%csfs(1)%nosubc /= 3) then
@@ -219,7 +219,7 @@ contains
 !
 !***********************************************************************
 !                                                                      *
-      subroutine form_list_nomach_csfs 
+      subroutine form_list_nomach_csfs
 !                                                                      *
 !     This subroutine form the list of serial numbers                  *
 !     in "expansion_cfg_LS" of "nonequivalent" LS coupling csfs        *
@@ -240,7 +240,7 @@ contains
       allocate(temp_list(expansion_cfg_LS%size))
 !
       do icsf_LS=1,expansion_cfg_LS%size,1
-         new_csf = .true. 
+         new_csf = .true.
          do inew = 1, inomach_counter, 1
             if(equivalent_LSLS3(expansion_cfg_LS%csfs(icsf_LS),        &
               expansion_cfg_LS%csfs(temp_list(inew)))) new_csf = .false.
@@ -250,16 +250,16 @@ contains
             if(inomach_counter.gt.expansion_cfg_LS%size) then
                write(*,*) 'stop at subroutine define_nomach: ',        &
                   'inomach_counter.gt.expansion_cfg_LS%size'
-               stop 
+               stop
             end if
             temp_list(inomach_counter)= icsf_LS
          end if
       end do
-!			
+!
       nomach_csfs_LS%list_size = inomach_counter
 !
       allocate(nomach_csfs_LS%items(nomach_csfs_LS%list_size))
-!		
+!
       do icsf_LS=1, nomach_csfs_LS%list_size, 1
          nomach_csfs_LS%items(icsf_LS) = temp_list(icsf_LS)
       end do
@@ -269,7 +269,7 @@ contains
 !write(iwrite_log, *)'Nonmaching csfs_LS:'
 !write(iwrite_log, *)'       Nr.   icsf_nr '
 !do icsf_LS=1, nomach_csfs_LS%list_size, 1
-!	 write(iwrite_log, '(4x,i3,2x,i3)') icsf_LS, nomach_csfs_LS%items(icsf_LS) 
+!	 write(iwrite_log, '(4x,i3,2x,i3)') icsf_LS, nomach_csfs_LS%items(icsf_LS)
 !end do !icsf_LS
 !write(iwrite_log, *)'  '
 !
@@ -284,7 +284,7 @@ contains
 !     correponding to the one in LS coupling "expansion_cfg_LS"        *
 !                                                                      *
 !     Written by G. Gaigalas,                                          *
-!     NIST                                     last update: Oct 2015   *
+!     NIST                                last update: February 2020   *
 !                                                                      *
 !***********************************************************************
       implicit none
@@ -309,7 +309,7 @@ contains
          write(*,*) 'STOP at subroutine define_number_of_csfs_LS3 ',   &
             'module transform_lsjj: cfg_Ji_structure%nr_of_subc.gt.',  &
             'isubc_aviable'
-         stop 
+         stop
       end if
 !
 !write(*,*) '      subroutine form_csfs_LS3'
@@ -320,7 +320,7 @@ contains
       call define_number_of_csfs_LS3(inr_of_csfs_LS3)
 !
       expansion_cfg_LS3%size=inr_of_csfs_LS3
-      if(itype.ne.1) then 
+      if(itype.ne.1) then
          allocate(expansion_cfg_LS3%csfs(expansion_cfg_LS3%size))
          allocate(expansion_cfg_LS3%coeffs(expansion_cfg_LS3%size))
          icsf_LS3=0
@@ -356,7 +356,7 @@ contains
                     if(icsf_LS3.gt.expansion_cfg_LS3%size) then
                        write(8,*) 'stop at subroutine form_csfs_LS3:',&
                            ' icsf_nr.gt.expansion_cfg_LS3%size'
-                       stop 
+                       stop
                     end if
                     expansion_cfg_LS3%csfs(icsf_LS3)%nosubc=inosubc
                     allocate(expansion_cfg_LS3%csfs(icsf_LS3)%        &
@@ -378,6 +378,7 @@ contains
                        expansion_cfg_LS3%csfs(icsf_LS3)%subc(isubc) = &
                           expansion_cfg_LS%csfs(                      &
                           inr_of_csf_in_expansion_LS)%subc(isubc)
+                          expansion_cfg_LS3%csfs(icsf_LS3)%iJ(isubc)=0
                        if(isubc == 2) then
                          expansion_cfg_LS3%csfs(icsf_LS3)%iM1(isubc)=  L
                          expansion_cfg_LS3%csfs(icsf_LS3)%iM2(isubc)= IS
@@ -390,11 +391,11 @@ contains
                             inr_of_csf_in_expansion_LS)%iM2(isubc)
                        end if
                     end do
-                 end if 
+                 end if
                end do
-              end if 
+              end if
            end do
-         end do 
+         end do
 !
       end if
 !
@@ -405,7 +406,7 @@ contains
 !
 !***********************************************************************
 !                                                                      *
-         subroutine  define_number_of_csfs_LS3(irez) 
+         subroutine  define_number_of_csfs_LS3(irez)
 !                                                                      *
 !     This subroutine defines the number of csfs in LS3 coupling       *
 !                                                                      *
@@ -423,7 +424,7 @@ contains
            write(*,*) 'STOP at subroutine define_number_of_csfs_LS3 ', &
               'module transform_lsls3:cfg_Ji_structure%nr_of_subc.gt.',&
               'isubc_aviable'
-           stop 
+           stop
          end if
          irez=0
          do icsf=1, nomach_csfs_ls%list_size,1
@@ -525,7 +526,7 @@ contains
                ' coeff_LS3=',coeff_LS3
             write(iwrite_log,*)'possible error at subroutine ',        &
                'dotransform_LSLS3: coeff_LS3=',coeff_LS3
-         end if 
+         end if
          expansion_cfg_LS3%coeffs(icsf_LS3)= coeff_LS3
          sum_of_state = sum_of_state + coeff_LS3*coeff_LS3
       end do
@@ -535,7 +536,7 @@ contains
             'sum_of_state=',sum_of_state
          write(iwrite_log,*)'possible error at subroutine ',           &
             'dotransform_LSLS3: sum_of_state=',sum_of_state
-      end if 
+      end if
 !
       end subroutine dotransform_LSLS3
 !
@@ -646,7 +647,7 @@ contains
          end if
       end if
 !
-!     LS3 - Coupling 
+!     LS3 - Coupling
 !
       if(itype.gt.1) then
          write(iwrite_cfg_expansions_LS3,*) &

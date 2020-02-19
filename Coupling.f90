@@ -29,12 +29,12 @@
       print *,                                                         &
       "          into differete coupled CSF bases      (Fortran 95)"
       print *,                                                         &
-      "          (C) (2016)                G. Gaigalas, A. Kramida."
+      "          (C) (2020)                G. Gaigalas, A. Kramida."
       print *, " "
       print *,                                                         &
-      "Input  files:  *.lsj.c, *.lsj.j (ATSP (CPC) or GRASP2K types)"
+      "Input  files: *.lsj.c, *.lsj.j (ATSP (CPC) or GRASP2K types)"
       print *,                                                         &
-      "Output files:  *.coup*.*.lbl,   *.coup*.Suggest,  *.coup*.sum"
+      "Output files: *.coup*.*.lbl,   *.coup*.Suggest,  *.coup*.sum"
       print *, " "
       print *, " "
     1 WRITE (*,*) 'Name of state'
@@ -102,7 +102,7 @@ contains
 !      write (*,*) '                                       ',I_Numb
       write (*,'(I2)') I_Numb
       symbol_I_Numb = jval(2*I_Numb)
-      log_file=NAME(1:K-1)//'.coup'//symbol_I_Numb(2:2)//'.sum'
+      log_file=NAME(1:K-1)//'.coup'//symbol_I_Numb(1:1)//'.sum'
       open(iwrite_log, file=log_file, status='unknown')
       write(iwrite_log,*) "      -------------------------------" 
       write(iwrite_log,*) "      Summry file of program COUPLING" 
@@ -203,35 +203,35 @@ contains
       open(iread_coefs, file=NAME(1:K-1)//'.lsj.j',status='old')
       if(print_level > 3) then
          suggestions_file=                                             &
-                   NAME(1:K-1)//'.coup'//symbol_I_Numb(2:2)//'.Suggest'
+                   NAME(1:K-1)//'.coup'//symbol_I_Numb(1:1)//'.Suggest'
          open(iwrite_suggestions,file=suggestions_file,status='unknown')
       end if 
       if(couplings(1:1).eq.'y')                                        &
-      open(iwrite_DataBase_LS, file=NAME(1:K-1)//'.coup'//symbol_I_Numb(2:2)//'.LS.lbl',status='unknown')
+      open(iwrite_DataBase_LS, file=NAME(1:K-1)//'.coup'//symbol_I_Numb(1:1)//'.LS.lbl',status='unknown')
       if(couplings(2:2).eq.'y')                                        &
-      open(iwrite_DataBase_JJ,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(2:2)//'.JJ.lbl',status='unknown')
+      open(iwrite_DataBase_JJ,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(1:1)//'.JJ.lbl',status='unknown')
       if(couplings(3:3).eq.'y')                                        &
-      open(iwrite_DataBase_LK,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(2:2)//'.LK.lbl',status='unknown')
+      open(iwrite_DataBase_LK,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(1:1)//'.LK.lbl',status='unknown')
       if(couplings(4:4).eq.'y')                                        &
-      open(iwrite_DataBase_JK,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(2:2)//'.JK.lbl',status='unknown')
+      open(iwrite_DataBase_JK,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(1:1)//'.JK.lbl',status='unknown')
       if(couplings(5:5).eq.'y')                                        &
-      open(iwrite_DataBase_LS3,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(2:2)//'.LS3.lbl',status='unknown')
+      open(iwrite_DataBase_LS3,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(1:1)//'.LS3.lbl',status='unknown')
       if(couplings(6:6).eq.'y')                                        &
-      open(iwrite_DataBase_LSJ3,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(2:2)//'.LSJ3.lbl',status='unknown')
+      open(iwrite_DataBase_LSJ3,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(1:1)//'.LSJ3.lbl',status='unknown')
       if(couplings(7:7).eq.'y')                                        &
-      open(iwrite_DataBase_LK3,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(2:2)//'.LK3.lbl',status='unknown')
+      open(iwrite_DataBase_LK3,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(1:1)//'.LK3.lbl',status='unknown')
       if(couplings(8:8).eq.'y')                                        &
-      open(iwrite_DataBase_JK3,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(2:2)//'.JK3.lbl',status='unknown')
+      open(iwrite_DataBase_JK3,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(1:1)//'.JK3.lbl',status='unknown')
       if(couplings(9:9).eq.'y')                                        &
-      open(iwrite_DataBase_cLSJ3,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(2:2)//'.cLSJ3.lbl',status='unknown')
+      open(iwrite_DataBase_cLSJ3,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(1:1)//'.cLSJ3.lbl',status='unknown')
       if(couplings(10:10).eq.'y')                                      &
-      open(iwrite_DataBase_LScjj,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(2:2)//'.LScjj.lbl',status='unknown')
+      open(iwrite_DataBase_LScjj,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(1:1)//'.LScjj.lbl',status='unknown')
       if(couplings(11:11).eq.'y')                                      &
-      open(iwrite_DataBase_jj123,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(2:2)//'.jj.lbl',status='unknown')
+      open(iwrite_DataBase_jj123,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(1:1)//'.jj.lbl',status='unknown')
       if(couplings(12:12).eq.'y')                                      &
-      open(iwrite_DataBase_jj123,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(2:2)//'.jj.lbl',status='unknown')
+      open(iwrite_DataBase_jj123,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(1:1)//'.jj.lbl',status='unknown')
       if(couplings(13:13).eq.'y')                                      &
-      open(iwrite_DataBase_jj123,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(2:2)//'.jj.lbl',status='unknown')
+      open(iwrite_DataBase_jj123,file=NAME(1:K-1)//'.coup'//symbol_I_Numb(1:1)//'.jj.lbl',status='unknown')
       if(print_level.gt.0) then
          open(iwrite_expansions, file=expansions_file, status='unknown')
          open(iwrite_classifications, file=classifications_file,       &

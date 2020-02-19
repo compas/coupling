@@ -2403,7 +2403,7 @@ contains
 !     Calls: convrt_double.                                            *
 !                                                                      *
 !     Written by G. Gaigalas,                                          *
-!     NIST                                     last update: May 2015   *
+!     NIST                                 last update: January 2020   *
 !                                                                      *
 !***********************************************************************
       IMPLICIT NONE
@@ -2412,12 +2412,14 @@ contains
 !-----------------------------------------------
       integer, intent(in)           :: shell_nn,shell_ll,shell_N,shell_L
       integer, intent(in)           :: shell_S, shell_w
-      character(len=8), intent(out) :: string_shell
+      character(len=9), intent(out) :: string_shell
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
       integer          :: string_lenth, number, j, jnumber, nu
-      character(len=1) :: string_N,string_S,string_v
+!GG      character(len=1) :: string_N,string_S,string_v
+      character(len=1) :: string_S,string_v
+      character(len=2) :: string_N
       character(len=2) :: string_nn
       character(len=4) :: string_CNUM
       type(subshell_term_LS), dimension(120) :: LS
@@ -2449,17 +2451,20 @@ contains
          call convrt(shell_N,string_CNUM,string_lenth)
          string_N = trim(string_CNUM(1:string_lenth))
          string_shell =                                               &
-                    trim(string_nn)//ll_string(shell_ll)//string_N//'_'
+             trim(string_nn)//ll_string(shell_ll)//trim(string_N)//'_'
+!GG                    trim(string_nn)//ll_string(shell_ll)//string_N//'_'
       else
          call convrt(shell_N,string_CNUM,string_lenth)
          string_N = string_CNUM(1:string_lenth)
          if (jnumber == 1) then
             string_shell =                                             &
-                     trim(string_nn)//ll_string(shell_ll)//string_N//  &
+               trim(string_nn)//ll_string(shell_ll)//trim(string_N)//  &
+!GG                     trim(string_nn)//ll_string(shell_ll)//string_N//  &
                     '('//string_S//L_string(shell_L/2)//')'
          else
             string_shell =                                             &
-                     trim(string_nn)//ll_string(shell_ll)//string_N//  &
+               trim(string_nn)//ll_string(shell_ll)//trim(string_N)//  &
+!GG                     trim(string_nn)//ll_string(shell_ll)//string_N//  &
                     '('//string_S//L_string(shell_L/2)//string_v//')'
          end if
       end if
@@ -2476,7 +2481,7 @@ contains
 !     Calls: convrt_double.                                            *
 !                                                                      *
 !     Written by G. Gaigalas,                                          *
-!     NIST                                     last update: May 2015   *
+!     NIST                                last update: February 2020   *
 !                                                                      *
 !***********************************************************************
       IMPLICIT NONE
@@ -2485,7 +2490,7 @@ contains
 !-----------------------------------------------
       integer, intent(in)          :: shell_nn,shell_ll,shell_jj,shell_N
       integer, intent(in)           :: shell_J, shell_w
-      character(len=8), intent(out) :: string_shell
+      character(len=9), intent(out) :: string_shell
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------

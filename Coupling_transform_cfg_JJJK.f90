@@ -17,7 +17,7 @@
       type::Ji_lists
 !integer::nr_of_subc
          integer::nr_of_csf !serial number of csf_JJ in csfs_JJ
-         type(list),dimension(:),pointer::Ji !i=1..nr_of_subc		
+         type(list),dimension(:),pointer::Ji !i=1..nr_of_subc
       end type Ji_lists
 !
       type:: cfg_Ji_lists
@@ -37,7 +37,7 @@
       subroutine main_cfg_JJJK(print_level)
 !subroutine main_cfg_JJjj(in_expansion_JJ, expansion_JK)
 !--------------------------------------------------------------------
-! This is managerial subroutine  
+! This is managerial subroutine
 !--------------------------------------------------------------------
       implicit none
       integer, intent(in):: print_level
@@ -75,11 +75,11 @@
       subroutine count_nr_of_csfs_JK(nr_of_csfs)
 !--------------------------------------------------------------------
 ! This subroutine counts the number of oneconfigurational
-! expansion in JK coupling 
-! (corresponding to the one in the JJ coupling "expansion_cfg_JJ") 
+! expansion in JK coupling
+! (corresponding to the one in the JJ coupling "expansion_cfg_JJ")
 !--------------------------------------------------------------------
       implicit none
-      integer, intent(out):: nr_of_csfs 
+      integer, intent(out):: nr_of_csfs
       integer::error
       integer::itype
 !
@@ -111,9 +111,9 @@
 !
       subroutine delete_cfg_expansions
 !--------------------------------------------------------------------
-! This subroutine deallocates the arrays of 
+! This subroutine deallocates the arrays of
 ! oneconfigurational expansions "expansion_cfg_JK" and
-! "expansion_cfg_JJ" 
+! "expansion_cfg_JJ"
 !--------------------------------------------------------------------
       integer::icsf
 !
@@ -167,11 +167,11 @@
 !
       function equivalent_JJJK(csf1, csf2)   result(rez)
 !--------------------------------------------------------------------
-! This function defines the "equivalency" of 
+! This function defines the "equivalency" of
 ! two csfs in JJ coupling for the formation of
-! JK csfs 
-!(for notion of the "equivalency" see the 
-! description in the program)  
+! JK csfs
+!(for notion of the "equivalency" see the
+! description in the program)
 !--------------------------------------------------------------------
       implicit none
       type(csf_LS) :: csf1, csf2
@@ -221,16 +221,16 @@
 !
 !-------  subroutine form_list_nomach_csfs   ------------
 !
-      subroutine form_list_nomach_csfs 
+      subroutine form_list_nomach_csfs
 !--------------------------------------------------------------------
-! This subroutine form the list of serial numbers 
-! in "expansion_cfg_JJ" of "nonequivalent" 
-! JJ coupling csfs 
-!(for notion of the "equivalency" see the 
-! description in the program)  
+! This subroutine form the list of serial numbers
+! in "expansion_cfg_JJ" of "nonequivalent"
+! JJ coupling csfs
+!(for notion of the "equivalency" see the
+! description in the program)
 !--------------------------------------------------------------------
       implicit none
-      integer:: inomach_counter 
+      integer:: inomach_counter
       integer, dimension(:), pointer :: temp_list
       integer::icsf_JJ, inew
       logical:: new_csf
@@ -239,7 +239,7 @@
       allocate(temp_list(expansion_cfg_JJ%size))
 !
       do icsf_JJ=1,expansion_cfg_JJ%size,1
-         new_csf = .true. 
+         new_csf = .true.
          do inew = 1, inomach_counter, 1
 !write(*,*)'cafs to check: ',icsf_JJ, inew
             if(equivalent_JJJK(expansion_cfg_JJ%csfs(icsf_JJ),         &
@@ -251,12 +251,12 @@
             if(inomach_counter.gt.expansion_cfg_JJ%size) then
                write(*,*) 'stop at subroutine define_nomach: ',        &
                   'inomach_counter.gt.expansion_cfg_JJ%size'
-               stop 
+               stop
             end if
             temp_list(inomach_counter)= icsf_JJ
          end if
       end do !icsf_JJ
-!	
+!
 !write(*,*)' inomach_counter', inomach_counter
 !
       nomach_csfs_JJ%list_size = inomach_counter
@@ -271,20 +271,23 @@
 !write(iwrite_log, *)'Nonmaching csfs_JJ:'
 !write(iwrite_log, *)'       Nr.   icsf_nr '
 !do icsf_JJ=1, nomach_csfs_JJ%list_size, 1
-!	 write(iwrite_log, '(4x,i3,2x,i3)') icsf_JJ, nomach_csfs_JJ%items(icsf_JJ) 
+!	 write(iwrite_log, '(4x,i3,2x,i3)') icsf_JJ, nomach_csfs_JJ%items(icsf_JJ)
 !end do !icsf_JJ
 !write(iwrite_log, *)'  '
       end subroutine form_list_nomach_csfs
 !
-!--- 	 subroutine  form_csfs_JK  ---------
-!
+!***********************************************************************
+!                                                                      *
       subroutine form_csfs_JK(itype)
-!--------------------------------------------------------------------
-! This subroutine forms the oneconfigurational
-! expansion in JK coupling "expansion_cfg_JK", 
-! correponding to the one in JJ coupling 
-! "expansion_cfg_JJ"
-!--------------------------------------------------------------------
+!                                                                      *
+!     This subroutine forms the oneconfigurational                     *
+!     expansion in JK coupling "expansion_cfg_JK",                     *
+!     correponding to the one in JJ coupling "expansion_cfg_JJ"        *
+!                                                                      *
+!     Written by G. Gaigalas,                                          *
+!     NIST                                last update: February 2020   *
+!                                                                      *
+!***********************************************************************
       implicit none
       integer:: itype !defines the type of execution
                 !itype=1 - to find the number
@@ -305,12 +308,12 @@
          write(*,*) 'STOP at subroutine define_number_of_csfs_JK ',    &
             'module transform_JJjj: cfg_Ji_structure%nr_of_subc .gt. ',&
             'isubc_aviable'
-         stop 
+         stop
       end if
       iJ_total=states%states(expansion_cfg_JJ%nr_of_state)%J
       call define_number_of_csfs_JK(inr_of_csfs_JK)
       expansion_cfg_JK%size=inr_of_csfs_JK
-      if(itype.ne.1) then 
+      if(itype.ne.1) then
          allocate(expansion_cfg_JK%csfs(expansion_cfg_JK%size))
          allocate(expansion_cfg_JK%coeffs(expansion_cfg_JK%size))
          icsf_JK=0
@@ -337,8 +340,8 @@
                      if(icsf_JK .gt. expansion_cfg_JK%size) then
                         write(*,*) 'stop at subroutine form_csfs_JK: ',&
                            'icsf_nr.gt.expansion_cfg_JK%size'
-                        stop 
-                     end if 
+                        stop
+                     end if
                      expansion_cfg_JK%csfs(icsf_JK)%nosubc=inosubc
                      allocate(expansion_cfg_JK%csfs(icsf_JK)%subc_cfg( &
                      expansion_cfg_JK%csfs(icsf_JK)%nosubc))
@@ -348,10 +351,13 @@
                      expansion_cfg_JK%csfs(icsf_JK)%nosubc))
                      allocate(expansion_cfg_JK%csfs(icsf_JK)%iM2(      &
                      expansion_cfg_JK%csfs(icsf_JK)%nosubc))
-                     allocate(expansion_cfg_JK%csfs(icsf_JK)%iJ(      &
+                     allocate(expansion_cfg_JK%csfs(icsf_JK)%iJ(       &
                      expansion_cfg_JK%csfs(icsf_JK)%nosubc))
+                     expansion_cfg_JK%csfs(icsf_JK)%iJ(                &
+                     expansion_cfg_JK%csfs(icsf_JK)%nosubc) = 0
                      do isubc=1,expansion_cfg_JK%csfs(icsf_JK)%        &
                                                              nosubc-1,1
+                         expansion_cfg_JK%csfs(icsf_JK)%iJ(isubc) = 0
                         expansion_cfg_JK%csfs(icsf_JK)%subc_cfg(isubc)=&
                            expansion_cfg_JJ%csfs(                      &
                            inr_of_csf_in_expansion_JJ)%subc_cfg(isubc)
@@ -376,7 +382,7 @@
                      expansion_cfg_JK%csfs(icsf_JK)%iM2(isubc) =       &
                      expansion_cfg_JJ%csfs(inr_of_csf_in_expansion_JJ)%&
                      iM2(isubc)
-                  end if 
+                  end if
                end do
             end do
          end do
@@ -385,10 +391,10 @@
 !
 !--- 	 subroutine  define_number_of_csfs_JK  ---------
 !
-         subroutine  define_number_of_csfs_JK(irez) 
+         subroutine  define_number_of_csfs_JK(irez)
 !--------------------------------------------------------------------
 ! This subroutine defines the number of csfs in
-! JK coupling 
+! JK coupling
 !--------------------------------------------------------------------
          implicit none
          integer, intent(out)::irez
@@ -433,14 +439,14 @@
 !
       subroutine matrix_JJ_JK(icsf_JJ,icsf_JK,rez)
 !--------------------------------------------------------------------
-! This subroutine calculates the transformation 
-! matrix element between two csfs 
+! This subroutine calculates the transformation
+! matrix element between two csfs
 ! (in JJ and JK couplings)
 !--------------------------------------------------------------------
       implicit none
       integer,intent(in):: icsf_JJ,icsf_JK
       real(kind=dp),intent(out)::rez
-      integer::K,iSi,J,iJi,iJ_im1,iLi 
+      integer::K,iSi,J,iJi,iJ_im1,iLi
       integer::nosubc !number of subshells
       rez = ZERO_dp
       if(equivalent_JJJK(expansion_cfg_JJ%csfs(icsf_JJ),               &
@@ -461,7 +467,7 @@
       subroutine dotransform_JJJK
 !--------------------------------------------------------------------
 ! This subroutine calculates the weights of the
-! expansions in the JK coupling 
+! expansions in the JK coupling
 !--------------------------------------------------------------------
       implicit none
       real(kind=dp)::coeff_JK,coeff_JJ, melement, sum_of_state
@@ -479,7 +485,7 @@
                                                   ' coeff_JK=',coeff_JK
             write(iwrite_log,*)'possible error at subroutine ',        &
                                  'dotransform_JJJK: coeff_JK=',coeff_JK
-         end if 
+         end if
          expansion_cfg_JK%coeffs(icsf_JK)= coeff_JK
          sum_of_state = sum_of_state + coeff_JK*coeff_JK
       end do
@@ -488,7 +494,7 @@
                                            'sum_of_state=',sum_of_state
          write(iwrite_log,*)'possible error at subroutine ',           &
                          'dotransform_JJJK: sum_of_state=',sum_of_state
-      end if 
+      end if
       end subroutine dotransform_JJJK
 !
 !------   subroutine print_cfg_JJJK      -------------------
@@ -496,8 +502,8 @@
       subroutine print_cfg_JJJK(itype)
 !--------------------------------------------------------------------
 ! This subroutine prints the oneconfigurational
-! expansions to the unit "iwrite_cfg_expansions_JK" 
-! (see module "Coupling_constants") 
+! expansions to the unit "iwrite_cfg_expansions_JK"
+! (see module "Coupling_constants")
 !--------------------------------------------------------------------
       implicit none
       integer, intent(in) ::itype
