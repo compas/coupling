@@ -1750,15 +1750,17 @@
 !     expansions to the files *.lbl                                    *
 !                                                                      *
 !     Written by G. Gaigalas,                                          *
-!     NIST                                     last update: Oct 2015   *
+!     NIST                                last update: February 2020   *
 !                                                                      *
 !***********************************************************************
       implicit none
       real(kind=dp), intent(in) :: thresh
       integer, intent(in) :: icase
       character(len=30) :: string_tmp
-      character(len=8) :: string_shell_1, string_shell_2, string_shell_3
-      character(len=8) :: string_shell_4, string_shell_5, string_shell_6
+      character(len=9) :: string_shell_1, string_shell_2, string_shell_3
+      character(len=9) :: string_shell_4, string_shell_5, string_shell_6
+      character(len=9) :: string_shell_11, string_shell_12
+      character(len=9) :: string_shell_13, string_shell_14
       integer          :: num_1, num_2, number_1, number_2
       integer          :: num_3, num_4, number_3, number_4
       integer          :: num_5, num_6, number_5, number_6

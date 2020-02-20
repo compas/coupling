@@ -8,14 +8,14 @@
 !                                                                      *
 !***********************************************************************
 !-----------------------------------------------
-!   M o d u l e s 
+!   M o d u l e s
 !-----------------------------------------------
       use Coupling_constants
       use Coupling_structures
       use Coupling_data
       use Coupling_transform_cfg_LSLS3
 !-----------------------------------------------
-!   R o u t i n e s 
+!   R o u t i n e s
 !-----------------------------------------------
       public  :: main_LSLS3
       private :: cfg_count
@@ -37,7 +37,7 @@ contains
       subroutine main_LSLS3 (icoupling_nr_in_expansions,               &
                                          inr_of_LS_coupling,print_level)
 !                                                                      *
-!     This is managerial subroutine  
+!     This is managerial subroutine
 !                                                                      *
 !     Written by G. Gaigalas,                                          *
 !     NIST                                     last update: Oct 2015   *
@@ -85,7 +85,7 @@ contains
            expansions(istate)%nr_of_state
          call form_cfg_structure(istate)
 !        call print_cfg_structure
-!     Define the size of mchf expansion in LK coupling: 
+!     Define the size of mchf expansion in LK coupling:
          nr_of_csfs_LS3=0
          do icfg=1, cfg_structure_LS%nr_of_cfgs
             call form_expansion_cfg_LS(istate, icfg)
@@ -123,7 +123,7 @@ contains
                   write(*,*) 'STOP at subroutine main_lsls3  : ',      &
                              'nr_of_csfs_LS3.gt.',                     &
                'all_expansions%coupling_expansions()%expansions()%size'
-                  stop 
+                  stop
                end if
 !unsing this I am SURE that in "b=a" "b" is "empty" csf ...
                all_expansions%coupling_expansions(                     &
@@ -164,7 +164,7 @@ contains
          subroutine form_expansion_cfg_LS(istate, icfg)
 !                                                                      *
 !     This subroutine forms oneconfigurational expansion               *
-!     "expansion_cfg_LS" of the state with serial number "istate"      * 
+!     "expansion_cfg_LS" of the state with serial number "istate"      *
 !     of configuration with serial number "icfg"                       *
 !                                                                      *
 !     Written by G. Gaigalas,                                          *
@@ -216,7 +216,7 @@ contains
                   deallocate(expansion_cfg_LS%csfs(icsf)%iM2,STAT=error)
                if(associated(expansion_cfg_LS%csfs(icsf)%iJ))         &
                   deallocate(expansion_cfg_LS%csfs(icsf)%iJ,STAT=error)
-            end do 
+            end do
             deallocate(expansion_cfg_LS%csfs, STAT=error)
          end if
          deallocate(expansion_cfg_LS%coeffs, STAT=error)
@@ -232,12 +232,12 @@ contains
 !	write(iwrite_log2,*)'istate,  nr_of_cfgs', istate, cfg_structure_LS%nr_of_cfgs
 !	!
 !	do icfg=1,cfg_structure_LS%nr_of_cfgs
-!		write(iwrite_log2,*)'  list_size:', cfg_structure_LS%csfs_lists(icfg)%list_size				
+!		write(iwrite_log2,*)'  list_size:', cfg_structure_LS%csfs_lists(icfg)%list_size
 !		!write csfs in cfg_structure
 !		do icsf=1, cfg_structure_LS%csfs_lists(icfg)%list_size
 !			write(iwrite_log2,*)'          csf:', cfg_structure_LS%csfs_lists(icfg)%items(icsf)
 !		end do
-!	end do 
+!	end do
 !end subroutine print_cfg_structure
 !
 !***********************************************************************
@@ -278,7 +278,7 @@ contains
             inr_of_csfs_of_cfg = 1
             icfg=icfg+1
          end if
-      end do 
+      end do
       cfg_structure_LS%csfs_lists(icfg)%list_size=inr_of_csfs_of_cfg
       allocate(cfg_structure_LS%csfs_lists(icfg)%items(                &
          cfg_structure_LS%csfs_lists(icfg)%list_size))
@@ -289,7 +289,7 @@ contains
                                                     inr_of_csfs_of_cfg
             inr_of_csfs_of_cfg = inr_of_csfs_of_cfg + 1
          end do
-      end do 
+      end do
       end subroutine form_cfg_structure
 !
 !***********************************************************************
@@ -309,7 +309,7 @@ contains
          do icfg=1,cfg_structure_LS%nr_of_cfgs
             if(associated(cfg_structure_LS%csfs_lists(icfg)%items))    &
           deallocate(cfg_structure_LS%csfs_lists(icfg)%items,STAT=error)
-         end do 
+         end do
          deallocate(cfg_structure_LS%csfs_lists, STAT=error)
       end if
       end subroutine delete_cfg_structure
@@ -333,13 +333,13 @@ contains
       integer::irez
       if(istate.eq.0) then
          irez=0
-      else 
+      else
          if(istate.ne.all_expansions%coupling_expansions(              &
             nr_of_LS_coupling)%expansions(istate)%nr_of_state) then
             write(*,*) 'STOP at subroutine cfg_count module ',         &
                'Coupling_transform_LSLS3: istate.ne.',                 &
                'expansion(nr_of_LS_coupling)(istate)%nr_of_state'
-            stop 
+            stop
          end if
          irez=1
          do icsf=2,all_expansions%coupling_expansions(                 &
@@ -350,7 +350,7 @@ contains
                expansions(istate)%csfs(icsf))) then
                irez=irez+1
             end if
-         end do 
+         end do
       end if
       end function
 !

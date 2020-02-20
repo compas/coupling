@@ -16,7 +16,7 @@
       type::Ji_lists
 !integer::nr_of_subc
          integer::nr_of_csf !serial number of csf_LS in csfs_LS
-         type(list),dimension(:),pointer::Ji !i=1..nr_of_subc		
+         type(list),dimension(:),pointer::Ji !i=1..nr_of_subc
       end type Ji_lists
 !
       type:: cfg_Ji_lists
@@ -36,7 +36,7 @@
       subroutine main_cfg_lsjj(print_level)
 !subroutine main_cfg_lsjj(in_expansion_LS, expansion_JJ)
 !--------------------------------------------------------------------
-! This is managerial subroutine  
+! This is managerial subroutine
 !--------------------------------------------------------------------
       implicit none
       integer, intent(in) :: print_level
@@ -68,11 +68,11 @@
       subroutine count_nr_of_csfs_JJ(nr_of_csfs)
 !--------------------------------------------------------------------
 ! This subroutine counts the number of oneconfigurational
-! expansion in JJ coupling 
-! (corresponding to the one in the JJ coupling "expansion_cfg_LS") 
+! expansion in JJ coupling
+! (corresponding to the one in the JJ coupling "expansion_cfg_LS")
 !--------------------------------------------------------------------
       implicit none
-      integer, intent(out):: nr_of_csfs 
+      integer, intent(out):: nr_of_csfs
       integer::error
       integer::itype
 !
@@ -92,14 +92,14 @@
                deallocate(nomach_csfs_ls%items,STAT=error)
 !
 !write(*,*) '    subroutine main_cfg_lsjj'
-write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
+!write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
       end subroutine count_nr_of_csfs_JJ
 !
       subroutine delete_cfg_expansions
 !--------------------------------------------------------------------
-! This subroutine deallocates the arrays of 
+! This subroutine deallocates the arrays of
 ! oneconfigurational expansions "expansion_cfg_JK" and
-! "expansion_cfg_LS" 
+! "expansion_cfg_LS"
 !--------------------------------------------------------------------
       integer::icsf
 !
@@ -153,13 +153,13 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
 !
 !-------  subroutine form_list_nomach_csfs   ------------
 !
-      subroutine form_list_nomach_csfs 
+      subroutine form_list_nomach_csfs
 !--------------------------------------------------------------------
-! This subroutine form the list of serial numbers 
-! (in "expansion_cfg_LS") of "nonequivalent" 
-! LS coupling csfs 
-!(for notion of the "equivalency" see the 
-! description in the program)  
+! This subroutine form the list of serial numbers
+! (in "expansion_cfg_LS") of "nonequivalent"
+! LS coupling csfs
+!(for notion of the "equivalency" see the
+! description in the program)
 !--------------------------------------------------------------------
       implicit none
       integer:: inomach_counter !,ipast_csf_nr
@@ -176,13 +176,13 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
          do inew = 1,inomach_counter,1
             if(the_same_subc(expansion_cfg_LS%csfs(icsf_LS),           &
               expansion_cfg_LS%csfs(temp_list(inew)))) new_csf = .false.
-         end do 
+         end do
          if(new_csf) then
             inomach_counter = inomach_counter + 1
             if(inomach_counter.gt.expansion_cfg_LS%size) then
                write(*,*)'ERROR at subroutine form_list_nomach_csfs: ',&
                          'inomach_counter.gt.expansion_cfg_LS%size'
-               stop 
+               stop
             end if
             temp_list(inomach_counter) = icsf_LS
          end if
@@ -198,15 +198,18 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
       deallocate(temp_list)
       end subroutine form_list_nomach_csfs
 !
-!--- 	 subroutine  form_csfs_JJ  ---------
-!
+!***********************************************************************
+!                                                                      *
       subroutine form_csfs_JJ(itype)
-!--------------------------------------------------------------------
-! This subroutine forms the oneconfigurational
-! expansion in JJ coupling "expansion_cfg_JJ", 
-! correponding to the one in LS coupling 
-! "expansion_cfg_LS"
-!--------------------------------------------------------------------
+!                                                                      *
+!     This subroutine forms the oneconfigurational                     *
+!     expansion in JJ coupling "expansion_cfg_JJ",                     *
+!     correponding to the one in LS coupling "expansion_cfg_LS"        *
+!                                                                      *
+!     Written by G. Gaigalas,                                          *
+!     NIST                                last update: February 2020   *
+!                                                                      *
+!***********************************************************************
       implicit none
 !type(cfg_Ji_lists),intent(in)::cfg_Ji_structure
       integer:: itype !defines the type of execution
@@ -221,7 +224,7 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
       integer:: i1, i2
       integer:: J12_min, J12_max, J12
       integer:: isubc, icsf
-!integer:: iLi, iSi, inri, inui 
+!integer:: iLi, iSi, inri, inui
       integer::iJ_total
       integer::error
       integer::inr_of_csf_in_expansion_LS
@@ -236,7 +239,7 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
       call define_number_of_csfs_JJ(inr_of_csfs_JJ)
 !
       expansion_cfg_JJ%size=inr_of_csfs_JJ
-      if(itype.ne.1) then 
+      if(itype.ne.1) then
          allocate(expansion_cfg_JJ%csfs(expansion_cfg_JJ%size))
          allocate(expansion_cfg_JJ%coeffs(expansion_cfg_JJ%size))
 !
@@ -270,7 +273,7 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
                            write(*,*)      &
                        'STOP at subroutine ... module transform_lsjj:',&
                           ' icsf_JJ.gt.expansion_cfg_JJ%size'
-                           stop 
+                           stop
                         end if
 !allocate arrays of csf
                        expansion_cfg_JJ%csfs(icsf_JJ)%nosubc =         &
@@ -285,8 +288,9 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
                         iM2(expansion_cfg_JJ%csfs(icsf_JJ)%nosubc))
                        allocate(expansion_cfg_JJ%csfs(icsf_JJ)%        &
                         iJ(expansion_cfg_JJ%csfs(icsf_JJ)%nosubc))
-!assign values								
+!assign values
                        do isubc=1,expansion_cfg_JJ%csfs(icsf_JJ)%nosubc,1
+                        expansion_cfg_JJ%csfs(icsf_JJ)%iJ(isubc) = 0
                         expansion_cfg_JJ%csfs(icsf_JJ)%subc_cfg(isubc) &
                          =expansion_cfg_LS%csfs(inr_of_csf_in_expansion_LS)%subc_cfg(isubc)
                         expansion_cfg_JJ%csfs(icsf_JJ)%subc(isubc) =  &
@@ -294,7 +298,7 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
                          expansion_cfg_JJ%csfs(icsf_JJ)%iM1(isubc)=Ji(isubc)
                          expansion_cfg_JJ%csfs(icsf_JJ)%iM2(isubc)=J_i(isubc)
                        end do
-                     end if 
+                     end if
                    end do
                  end do
                end if
@@ -305,14 +309,14 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
          if(associated(J_i)) deallocate(J_i, STAT = error)
 !
       end if
-!dealloacte cfg_Ji_structure		
+!dealloacte cfg_Ji_structure
       do icsf=1,cfg_Ji_structure%nr_of_nomach_csfs
         do isubc=1,cfg_Ji_structure%nr_of_subc
          if(associated(cfg_Ji_structure%csfs_Ji(icsf)%Ji(isubc)%items))&
           deallocate(cfg_Ji_structure%csfs_Ji(icsf)%Ji(isubc)%items,STAT=error)
         end do
         if(associated(cfg_Ji_structure%csfs_Ji)) deallocate(cfg_Ji_structure%csfs_Ji(icsf)%Ji, STAT = error)
-      end do 
+      end do
       if (associated(cfg_Ji_structure%csfs_Ji)) deallocate(cfg_Ji_structure%csfs_Ji, STAT = error)
 !
 !write(*,*) '      end subroutine form_csfs_JJ'
@@ -327,9 +331,9 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
 !csfs_LS in state%list_of_csfs_LS
          integer::iJ
 !integer::inr_of_csf_in_state
-!integer::inr_of_csf_in_csfs_LS 
+!integer::inr_of_csf_in_csfs_LS
          integer::icsf, isubc
-         integer::iSi, iLi, iJi_min, iJi_max  
+         integer::iSi, iLi, iJi_min, iJi_max
          integer::inumber_of_Ji, item, inr_of_subc
          integer::icsf_nr_in_expansion_LS
          inr_of_subc=expansion_cfg_LS%csfs(1)%nosubc
@@ -361,7 +365,7 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
                   if(iJ.gt.iJi_max) stop 'STOP at subroutine ... module transform_lsll: iJ.gt.iJi_max'
                   cfg_Ji_structure%csfs_Ji(icsf)%Ji(isubc)%items(item) = iJ
                   iJ=iJ+2
-               end do  
+               end do
             end do
          end do
 !deallocate nomach_csfs_LS%items
@@ -370,10 +374,10 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
 !
 !--- 	 subroutine  define_number_of_csfs_JJ  ---------
 !
-         subroutine  define_number_of_csfs_JJ(irez) 
+         subroutine  define_number_of_csfs_JJ(irez)
 !--------------------------------------------------------------------
 ! This subroutine defines the number of csfs in
-! JJ coupling 
+! JJ coupling
 !--------------------------------------------------------------------
          implicit none
          integer, intent(out)::irez
@@ -402,7 +406,7 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
                      do J12=J12_min,J12_max,2
                         if(J12.eq.iJ_total) then
                            irez=irez+1
-                        end if 
+                        end if
                      end do
                   end do
                end if
@@ -415,8 +419,8 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
 !
       subroutine matrix_LS_JJ(icsf_LS,icsf_JJ,rez)
 !--------------------------------------------------------------------
-! This subroutine calculates the transformation 
-! matrix element between two csfs 
+! This subroutine calculates the transformation
+! matrix element between two csfs
 ! (in LS and JJ couplings)
 !--------------------------------------------------------------------
       implicit none
@@ -453,12 +457,12 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
 !call NINE(iL_im1,iLi,iL_i,  &
 !			 iS_im1,iSi,iS_i,  &
 !			 iJ_im1,iJi,iJ_i,  &
-!			 i,inn,ninej)	 
+!			 i,inn,ninej)
 !			 ! last line for techn. and output parameters
 !multp=dsqrt(dble((iL_i+1)*(iS_i+1)*(iJ_im1+1)*(iJi+1)))
 !
                rez=rez*rez_2
-!					
+!
             end do
          end if
       end if
@@ -471,7 +475,7 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
       subroutine dotransform_lsjj
 !--------------------------------------------------------------------
 ! This subroutine calculates the weights of the
-! expansions in the JJ coupling 
+! expansions in the JJ coupling
 !--------------------------------------------------------------------
       implicit none
       real(kind=dp)::coeff_JJ, coeff_LS, melement, sum_of_state
@@ -488,7 +492,7 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
          if((dabs(coeff_JJ)-dp_coeff_precision).gt.ONE_dp) then
             write(*,*)'possible error at subroutine dotransform_lsjj: coeff_JJ=',coeff_JJ
             write(iwrite_log,*)'possible error at subroutine dotransform_lsjj: coeff_JJ=',coeff_JJ
-         end if 
+         end if
          expansion_cfg_JJ%coeffs(icsf_JJ)= coeff_JJ
          sum_of_state = sum_of_state + coeff_JJ*coeff_JJ
       end do ! icsf_JJ
@@ -496,7 +500,7 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
       if((sum_of_state-TWO_dp*dp_coeff_precision).gt.ONE_dp) then
          write(*,*)'possible error at subroutine dotransform_lsjj: sum_of_state=',sum_of_state
          write(iwrite_log,*)'possible error at subroutine dotransform_lsjj: sum_of_state=',sum_of_state
-      end if 
+      end if
 !write(iwrite_cfg_expansions_JJ,'(25x,f10.7)')sum_of_state
       end subroutine dotransform_lsjj
 !
@@ -505,12 +509,12 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
       subroutine print_cfg_lsjj(itype)
 !--------------------------------------------------------------------
 ! This subroutine prints the oneconfigurational
-! expansions to the unit "iwrite_cfg_expansions_JJ" 
-! (see module "Coupling_constants") 
+! expansions to the unit "iwrite_cfg_expansions_JJ"
+! (see module "Coupling_constants")
 !--------------------------------------------------------------------
       implicit none
       integer, intent(in) :: itype
-      integer             :: icsf, isubc, j 
+      integer             :: icsf, isubc, j
       character(len=1) :: CVAL
       character(len=4) :: JVAL
 !
@@ -585,7 +589,7 @@ write(iwrite_log,*) '    end count_nr_of_csfs_JJ'
          end if
       end if
 !
-!     JJ - Coupling 
+!     JJ - Coupling
 !
       if(itype.gt.1) then
          write(iwrite_cfg_expansions_JJ,*) &

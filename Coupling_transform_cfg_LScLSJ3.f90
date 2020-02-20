@@ -1,6 +1,6 @@
 !
 !***********************************************************************
-! 
+!
       module Coupling_transform_cfg_LScLSJ3
 !                                                                      *
 !     Written by G. Gaigalas,                                          *
@@ -8,14 +8,14 @@
 !                                                                      *
 !***********************************************************************
 !-----------------------------------------------
-!   M o d u l e s 
+!   M o d u l e s
 !-----------------------------------------------
       use Coupling_constants
       use Coupling_structures
       use Coupling_data
       use Coupling_inside_shell
 !-----------------------------------------------
-!   R o u t i n e s 
+!   R o u t i n e s
 !-----------------------------------------------
       public  :: main_cfg_lsclsJ3
       public  :: count_nr_of_csfs_cLSJ3
@@ -31,7 +31,7 @@
 !-----------------------------------------------
       type::Ji_lists
          integer::nr_of_csf !serial number of csf_LS in csfs_LS
-         type(list),dimension(:),pointer::Ji !i=1..nr_of_subc		
+         type(list),dimension(:),pointer::Ji !i=1..nr_of_subc
       end type Ji_lists
 !
       type:: cfg_Ji_lists
@@ -85,7 +85,7 @@ contains
 !                                                                      *
 !***********************************************************************
       implicit none
-      integer, intent(out):: nr_of_csfs 
+      integer, intent(out):: nr_of_csfs
       integer::error
       integer::itype
       if(expansion_cfg_LS%csfs(1)%nosubc /= 3) then
@@ -190,7 +190,7 @@ contains
                    'csf1%nosubc /= 3 .or. csf2%nosubc /= 3'
          write(*,*)'(you can use cLSJ3 coupling with shell number 3)'
          write(*,*)'program will be terminated'
-         write(*,*)'csf1%nosubc, csf2%nosubc',csf1%nosubc, csf2%nosubc 
+         write(*,*)'csf1%nosubc, csf2%nosubc',csf1%nosubc, csf2%nosubc
          stop
       end if
       if(csf1%nosubc.eq.csf2%nosubc) then
@@ -210,7 +210,7 @@ contains
 !
 !***********************************************************************
 !                                                                      *
-      subroutine form_list_nomach_csfs 
+      subroutine form_list_nomach_csfs
 !                                                                      *
 !     This subroutine form the list of serial numbers                  *
 !     in "expansion_cfg_LS" of "nonequivalent" LS coupling csfs        *
@@ -231,7 +231,7 @@ contains
       allocate(temp_list(expansion_cfg_LS%size))
 !
       do icsf_LS=1,expansion_cfg_LS%size,1
-         new_csf = .true. 
+         new_csf = .true.
          do inew = 1, inomach_counter, 1
             if(equivalent_LScLSJ3(expansion_cfg_LS%csfs(icsf_LS),      &
               expansion_cfg_LS%csfs(temp_list(inew)))) new_csf = .false.
@@ -241,16 +241,16 @@ contains
             if(inomach_counter.gt.expansion_cfg_LS%size) then
                write(*,*) 'stop at subroutine define_nomach: ',        &
                   'inomach_counter.gt.expansion_cfg_LS%size'
-               stop 
+               stop
             end if
             temp_list(inomach_counter)= icsf_LS
          end if
       end do
-!			
+!
       nomach_csfs_LS%list_size = inomach_counter
 !
       allocate(nomach_csfs_LS%items(nomach_csfs_LS%list_size))
-!		
+!
       do icsf_LS=1, nomach_csfs_LS%list_size, 1
          nomach_csfs_LS%items(icsf_LS) = temp_list(icsf_LS)
       end do
@@ -260,7 +260,7 @@ contains
 !      write(99, *)'Nonmaching csfs_LS:'
 !      write(99, *)'       Nr.   icsf_nr '
 !      do icsf_LS=1, nomach_csfs_LS%list_size, 1
-!	 write(99, '(4x,i3,2x,i3)') icsf_LS, nomach_csfs_LS%items(icsf_LS) 
+!	 write(99, '(4x,i3,2x,i3)') icsf_LS, nomach_csfs_LS%items(icsf_LS)
 !      end do  !icsf_LS
 !      write(99, *)'  '
 !
@@ -275,7 +275,7 @@ contains
 !     correponding to the one in LS coupling "expansion_cfg_LS"        *
 !                                                                      *
 !     Written by G. Gaigalas,                                          *
-!     NIST                                     last update: Oct 2015   *
+!     NIST                                last update: February 2020   *
 !                                                                      *
 !***********************************************************************
       implicit none
@@ -305,28 +305,30 @@ contains
          write(*,*) 'STOP at subroutine define_number_of_csfs_cLSJ3 ', &
            'module transform_lsclsj3: cfg_Ji_structure%nr_of_subc.gt.',&
            'isubc_aviable'
-         stop 
+         stop
       end if
       iJ_total=states%states(expansion_cfg_LS%nr_of_state)%J
       call define_number_of_csfs_cLSJ3(inr_of_csfs_cLSJ3)
       expansion_cfg_cLSJ3%size=inr_of_csfs_cLSJ3
-      if(itype.ne.1) then 
+      if(itype.ne.1) then
          allocate(expansion_cfg_cLSJ3%csfs(expansion_cfg_cLSJ3%size))
          allocate(expansion_cfg_cLSJ3%coeffs(expansion_cfg_cLSJ3%size))
          icsf_cLSJ3=0
          do icsf_LS=1, nomach_csfs_ls%list_size,1
            icsf_nr = nomach_csfs_ls%items(icsf_LS)
            if(expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%il == 3 .and. &
-              expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%iN_big>=3) then
-              Nr_Term = expansion_cfg_LS%csfs(icsf_nr)%subc(1)%inr
-              Q_Term = gettermLSQ(                                     &
-              expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%il,           &
-              expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%iN_big,Nr_term)
+             expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%iN_big>=3) then
+             Nr_Term = expansion_cfg_LS%csfs(icsf_nr)%subc(1)%inr
+             Q_Term = gettermLSQ(                                      &
+             expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%il,            &
+             expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%iN_big,Nr_term,&
+             expansion_cfg_LS%csfs(icsf_nr)%subc(1)%iL,                &
+             expansion_cfg_LS%csfs(icsf_nr)%subc(1)%iS)
            else
-              Q_Term =                                                 &
-                     2*expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%il+1-&
-                     expansion_cfg_LS%csfs(icsf_nr)%subc(1)%inr
-              Nr_Term = 0
+             Q_Term =                                                  &
+                    2*expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%il+1- &
+                    expansion_cfg_LS%csfs(icsf_nr)%subc(1)%inr
+             Nr_Term = 0
            end if
            inosubc = expansion_cfg_LS%csfs(icsf_nr)%nosubc
            N1_MAX=2*expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%il
@@ -340,7 +342,7 @@ contains
               N2_big= 0
               I_Count = N1_big + 1
            else
-              N1_big=N1_MAX 
+              N1_big=N1_MAX
               N2_big=                                                  &
                 expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%iN_big-N1_big
               I_Count=                                                 &
@@ -377,7 +379,7 @@ contains
                                'J_1,icsf_cLSJ3', J_1,icsf_cLSJ3,    &
                                'expansion_cfg_cLSJ3%size',          &
                                expansion_cfg_cLSJ3%size
-                               stop 
+                               stop
                              end if
                             if(I == 1) then
                                if (N1_MAX /= 0) then
@@ -460,7 +462,7 @@ contains
                                      expansion_cfg_cLSJ3%csfs(icsf_cLSJ3)%&
                                      iM1(1) = N1_big_jj
                                      expansion_cfg_cLSJ3%csfs(icsf_cLSJ3)%&
-                                     iM2(1) = N2_big_jj 
+                                     iM2(1) = N2_big_jj
                                      expansion_cfg_cLSJ3%csfs(icsf_cLSJ3)%&
                                                          iJ(1)=J_1
                                    else if(isubc == 2) then
@@ -487,7 +489,7 @@ contains
                  end do
               end do
            end do
-         end do 
+         end do
 !
       end if
 !
@@ -498,12 +500,12 @@ contains
 !
 !***********************************************************************
 !                                                                      *
-         subroutine  define_number_of_csfs_cLSJ3(irez) 
+         subroutine  define_number_of_csfs_cLSJ3(irez)
 !                                                                      *
 !     This subroutine defines the number of csfs in cLSJ3 coupling     *
 !                                                                      *
 !     Written by G. Gaigalas,                                          *
-!     NIST                                     last update: Oct 2015   *
+!     NIST                                last update: February 2020   *
 !                                                                      *
 !***********************************************************************
          implicit none
@@ -523,22 +525,24 @@ contains
            write(*,*)'STOP at subroutine define_number_of_csfs_cLSJ3 ',&
             'module transform_lsclsJ3:cfg_Ji_structure%nr_of_subc.gt.',&
             'isubc_aviable'
-           stop 
+           stop
          end if
          irez=0
          do icsf=1, nomach_csfs_ls%list_size,1
            icsf_nr = nomach_csfs_ls%items(icsf)
            if(expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%il == 3 .and. &
-              expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%iN_big>=3) then
-              Nr_Term = expansion_cfg_LS%csfs(icsf_nr)%subc(1)%inr
-              Q_Term = gettermLSQ(                                     &
-              expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%il,           &
-              expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%iN_big,Nr_term)
+             expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%iN_big>=3) then
+             Nr_Term = expansion_cfg_LS%csfs(icsf_nr)%subc(1)%inr
+             Q_Term = gettermLSQ(                                      &
+             expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%il,            &
+             expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%iN_big,Nr_term,&
+             expansion_cfg_LS%csfs(icsf_nr)%subc(1)%iL,                &
+             expansion_cfg_LS%csfs(icsf_nr)%subc(1)%iS)
            else
-              Q_Term =                                                 &
-                     2*expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%il+1-&
-                     expansion_cfg_LS%csfs(icsf_nr)%subc(1)%inr
-              Nr_Term = 0
+             Q_Term =                                                  &
+                    2*expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%il+1- &
+                    expansion_cfg_LS%csfs(icsf_nr)%subc(1)%inr
+             Nr_Term = 0
            end if
            N1_MAX=2*expansion_cfg_LS%csfs(icsf_nr)%subc_cfg(1)%il
            if (N1_MAX == 0) then
@@ -644,7 +648,7 @@ contains
            end do
          end do
          end subroutine  define_number_of_csfs_cLSJ3
-      end subroutine form_csfs_cLSJ3 
+      end subroutine form_csfs_cLSJ3
 !
 !***********************************************************************
 !                                                                      *
@@ -654,7 +658,7 @@ contains
 !     matrix element between two csfs  (in LS and cLSJ3 couplings)     *
 !                                                                      *
 !     Written by G. Gaigalas,                                          *
-!     NIST                                     last update: Oct 2015   *
+!     NIST                                last update: February 2020   *
 !                                                                      *
 !***********************************************************************
       implicit none
@@ -669,7 +673,6 @@ contains
       type(subshell_term), dimension(1:63)  :: jj_1_term, jj_2_term
       nosubc=expansion_cfg_LS%csfs(1)%nosubc
       rez = ZERO_dp
-!      print*, "iena i matrix_LS_cLSJ3" 
       if(equivalent_LScLSJ3(expansion_cfg_LS%csfs(icsf_LS),            &
          expansion_cfg_cLSJ3%csfs(icsf_cLSJ3))) then
          L_1    = expansion_cfg_LS%csfs(icsf_LS)%subc(1)%iL
@@ -691,17 +694,19 @@ contains
          N2     = expansion_cfg_cLSJ3%csfs(icsf_cLSJ3)%iM2(1)
          number_1 = expansion_cfg_cLSJ3%csfs(icsf_cLSJ3)%iM1(3)
          number_2 = expansion_cfg_cLSJ3%csfs(icsf_cLSJ3)%iM2(3)
-         if(expansion_cfg_LS%csfs(icsf_LS)%subc_cfg(1)%il == 3 .and. &
-            expansion_cfg_LS%csfs(icsf_LS)%subc_cfg(1)%iN_big>=3) then
-            Nr_Term = expansion_cfg_LS%csfs(icsf_LS)%subc(1)%inr
-            Q_Term = gettermLSQ(                                     &
-            expansion_cfg_LS%csfs(icsf_LS)%subc_cfg(1)%il,           &
-            expansion_cfg_LS%csfs(icsf_LS)%subc_cfg(1)%iN_big,Nr_term)
+         if(expansion_cfg_LS%csfs(icsf_LS)%subc_cfg(1)%il == 3 .and.   &
+             expansion_cfg_LS%csfs(icsf_LS)%subc_cfg(1)%iN_big>=3) then
+             Nr_Term = expansion_cfg_LS%csfs(icsf_LS)%subc(1)%inr
+             Q_Term = gettermLSQ(                                      &
+             expansion_cfg_LS%csfs(icsf_LS)%subc_cfg(1)%il,            &
+             expansion_cfg_LS%csfs(icsf_LS)%subc_cfg(1)%iN_big,Nr_term,&
+             expansion_cfg_LS%csfs(icsf_LS)%subc(1)%iL,                &
+             expansion_cfg_LS%csfs(icsf_LS)%subc(1)%iS)
          else
-            Q_Term =                                                 &
-                   2*expansion_cfg_LS%csfs(icsf_LS)%subc_cfg(1)%il+1-&
-                   expansion_cfg_LS%csfs(icsf_LS)%subc(1)%inr
-            Nr_Term = 0
+             Q_Term =                                                  &
+                    2*expansion_cfg_LS%csfs(icsf_LS)%subc_cfg(1)%il+1- &
+                    expansion_cfg_LS%csfs(icsf_LS)%subc(1)%inr
+             Nr_Term = 0
          end if
          if (expansion_cfg_LS%csfs(icsf_LS)%subc_cfg(1)%il /= 0) then
             call gettermjj                                             &
@@ -734,7 +739,7 @@ contains
                        IS_1,IS_12,IS_2,IS_3,IS_23,IS,J_1,J_12,J,rez_2)
             rez = rez_1 * rez_2
       end if
-!      print*, "isena is matrix_LS_cLSJ3" 
+!      print*, "isena is matrix_LS_cLSJ3"
       end subroutine matrix_LS_cLSJ3
 !
 !***********************************************************************
@@ -766,7 +771,7 @@ contains
                ' coeff_cLSJ3=',coeff_cLSJ3
             write(iwrite_log,*)'possible error at subroutine ',        &
                'dotransform_LScLSJ3: coeff_cLSJ3=',coeff_cLSJ3
-         end if 
+         end if
          expansion_cfg_cLSJ3%coeffs(icsf_cLSJ3)= coeff_cLSJ3
          sum_of_state = sum_of_state + coeff_cLSJ3*coeff_cLSJ3
       end do
@@ -776,7 +781,7 @@ contains
             'sum_of_state=',sum_of_state
          write(iwrite_log,*)'possible error at subroutine ',           &
             'dotransform_LScLSJ3: sum_of_state=',sum_of_state
-      end if 
+      end if
 !
       end subroutine dotransform_LScLSJ3
 !
@@ -890,7 +895,7 @@ contains
          end if
       end if
 !
-!     cLSJ3 - Coupling 
+!     cLSJ3 - Coupling
 !
       if(itype.gt.1) then
          write(iwrite_cfg_expansions_cLSJ3,*) &
@@ -921,7 +926,7 @@ contains
                      else
                         jj_1_term(number_1)%j = -1
                         jj_1_term(number_1)%subshellJ = 0
-                        jj_1_term(number_1)%nu  = 0 
+                        jj_1_term(number_1)%nu  = 0
                      end if
                      call gettermjj                                    &
                        (2*expansion_cfg_cLSJ3%csfs(icsf)%subc_cfg(1)%il+1,&

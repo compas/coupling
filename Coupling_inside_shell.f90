@@ -934,17 +934,17 @@ contains
 !
 !***********************************************************************
 !                                                                      *
-      FUNCTION gettermLSQ(l_shell,N,w)          result (wa)
+      FUNCTION gettermLSQ(l_shell,N,w,L,iS)          result (wa)
 !                                                                      *
 !     Written by G. Gaigalas,                                          *
-!     NIST                                     last update: May 2015   *
+!     NIST                                last update: February 2020   *
 !                                                                      *
 !***********************************************************************
       IMPLICIT NONE
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
-      integer, intent(in) :: l_shell, N, w
+      integer, intent(in) :: l_shell, N, w, L, iS
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -954,9 +954,13 @@ contains
 !-----------------------------------------------
       CALL  gettermLS(l_shell,N,LS,number)
       do i = 1,number
-         if (LS(number)%w == w) then
-            wa = LS(number)%Q
-            exit
+         if (LS(i)%LL == L) then
+            if (LS(i)%S == iS) then
+               if (LS(i)%w == w) then
+                  wa = LS(i)%Q
+                  exit
+               end if
+            end if
          end if
       end do
       END FUNCTION gettermLSQ
