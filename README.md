@@ -1,5 +1,7 @@
 ## Coupling - A program for searching optimal coupling scheme in atomic theory
 
+Note: This version is an improved, further developed version of the code published in CPC.
+
 ### Introduction
 The Coupling program, which is important not only for the Grasp2018 package but for the atom theory in general, is presented in this paper. This program is designed as a part of the Grasp2018 package. The Coupling performs the transformation of atomic state functions (ASFs) from a LSJ-coupled CSF basis into several other configuration state function (CSF) bases such as jj, LK, JK, JJ, and many others. It allows identification of the energy structure of practically any element in different coupling schemes and also allows selection of the most suitable one. In addition, examples of how to use the Coupling program are given in additional file Example_Calculation.pdf listed in source directory grasp2018/src/appl/Coupling/Sample_Runs.
 
