@@ -997,7 +997,7 @@ contains
                            icoupling)%states(istate)%csf%iM2(2),1,1000)
                            number_5 =                                  &
                            JTHN(all_classifications%couplings(         &
-                           icoupling)%states(istate)%csf%iM2(3),1,1000)
+                           icoupling)%states(istate)%csf%iM2(3),2,1000)
                            number_6 =                                  &
                            JTHN(all_classifications%couplings(         &
                            icoupling)%states(istate)%csf%iM2(3),1,1000)
