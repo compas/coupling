@@ -34,7 +34,7 @@
       print *,                                                         &
       "Input  files: *.lsj.c, *.lsj.j (ATSP (CPC) or GRASP2K types)"
       print *,                                                         &
-      "Output files: *.coup*.*.lbl,   *.coup*.Suggest,  *.coup*.sum"
+      "Output files: *.coup*.*.lbl, *.coup*.sum"
       print *, " "
       print *, " "
     1 WRITE (*,*) 'Name of state'
