@@ -29,7 +29,7 @@
       print *,                                                         &
       "          into differete coupled CSF bases      (Fortran 95)"
       print *,                                                         &
-      "          (C) (2020)                G. Gaigalas, A. Kramida."
+      "          (C) (2022)                G. Gaigalas, A. Kramida."
       print *, " "
       print *,                                                         &
       "Input  files: *.lsj.c, *.lsj.j (ATSP (CPC) or GRASP2K types)"
