@@ -69,7 +69,8 @@
       type::state
          real(kind=dp)::energy
          integer::J   ! 2*J value
-         byte::parity
+!GG         byte::parity
+         character(len=1)  :: parity
       end type state
 !
 !------------------------------------------------------------
