@@ -644,6 +644,7 @@ contains
 !--------------------------------------------------------------------
 ! This subroutine prints classification data 
 ! to the unit "iwrite" 
+!   Modified by G. Gaigalas,                       September 2025   *
 !--------------------------------------------------------------------
       implicit none
       integer, intent(in):: iwrite
@@ -1349,7 +1350,8 @@ contains
                            (all_classifications%couplings(             &
                            icoupling)%states(istate)%csf%iM2(j)+1,     &
                            CVAL(2,all_classifications%couplings(       &
-                           icoupling)%states(istate)%csf%iM2(j)),j=2,3)
+! GG 2025                           icoupling)%states(istate)%csf%iM2(j)),j=2,3)
+                           icoupling)%states(istate)%csf%iM1(j)),j=2,3)
                         end if
                      else if(coupling_descriptions(all_expansions%     &
                         coupling_expansions(icoupling)%icoupling)%     &
@@ -1368,7 +1370,8 @@ contains
                            all_classifications%couplings(              &
                            icoupling)%states(istate)%csf%iM2(2)+1,     &
                            CVAL(2,all_classifications%couplings(       &
-                           icoupling)%states(istate)%csf%iM1(1)),      &
+! GG 20205                           icoupling)%states(istate)%csf%iM1(1)),      &
+                           icoupling)%states(istate)%csf%iM1(2)),      &
                            JVAL(all_classifications%couplings(         &
                            icoupling)%states(istate)%csf%iJ(1)),       &
                            JVAL(all_classifications%couplings(         &
@@ -1391,11 +1394,13 @@ contains
                            all_classifications%couplings(              &
                            icoupling)%states(istate)%csf%iM2(2)+1,     &
                            CVAL(2,all_classifications%couplings(       &
-                           icoupling)%states(istate)%csf%iM1(1)),      &
+! GG 2025                           icoupling)%states(istate)%csf%iM1(1)),      &
+                           icoupling)%states(istate)%csf%iM1(2)),      &
                            CVAL(2,all_classifications%couplings(       &
                            icoupling)%states(istate)%csf%iM1(3)),      &
                            JVAL(all_classifications%couplings(         &
-                           icoupling)%states(istate)%csf%iM2(2))
+! GG 2025                           icoupling)%states(istate)%csf%iM2(2))
+                           icoupling)%states(istate)%csf%iM2(3))
                         end if
                      else if(coupling_descriptions(all_expansions%     &
                         coupling_expansions(icoupling)%icoupling)%     &
